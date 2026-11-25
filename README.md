@@ -65,6 +65,16 @@ npm run build
 
 Thư mục `dist/` là trang web tĩnh. Bạn có thể đưa lên GitHub Pages, Netlify, Vercel hoặc Firebase Hosting.
 
+### Netlify
+
+Dự án đã có sẵn file `netlify.toml`, nên Netlify tự biết lệnh build và thư mục cần đưa lên.
+
+1. Vào [app.netlify.com](https://app.netlify.com), chọn **Add new project → Import an existing project → GitHub**, rồi chọn repo `e-play`.
+2. Giữ nguyên các thiết lập build (Netlify đọc từ `netlify.toml`) và bấm **Deploy**.
+3. Nếu đã có URL Apps Script: vào **Project configuration → Environment variables**, thêm `VITE_GAS_URL` = URL đó, rồi vào **Deploys → Trigger deploy** để build lại.
+
+Từ đó, mỗi lần `git push` lên nhánh `main`, Netlify tự build và cập nhật trang.
+
 ## Cấu trúc
 
 ```
