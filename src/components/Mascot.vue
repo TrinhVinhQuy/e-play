@@ -1,14 +1,14 @@
 <script setup>
 defineProps({
   text: { type: String, default: '' },
-  mood: { type: String, default: 'happy' } // happy | sad | cheer
+  mood: { type: String, default: 'happy' }, // happy | sad | cheer
+  face: { type: String, default: '🦉' }
 })
-const FACES = { happy: '🦉', sad: '🦉', cheer: '🦉' }
 </script>
 
 <template>
   <div class="mascot" :class="mood">
-    <div class="face" :key="text">{{ FACES[mood] }}</div>
+    <div class="face" :key="text">{{ face }}</div>
     <Transition name="bubble" mode="out-in">
       <div v-if="text" :key="text" class="bubble">{{ text }}</div>
     </Transition>

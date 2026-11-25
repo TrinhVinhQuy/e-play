@@ -25,6 +25,16 @@ function play(id) {
 
     <SubjectSwitch />
 
+    <button v-if="store.subject === 'english'" class="adventure pop-in" @click="sfx.click(); go('adventure')">
+      <span class="map">🗺️</span>
+      <span class="txt">
+        <b>English Adventure</b>
+        <span>Phiêu lưu qua 12 thế giới · học từ mới · nhận XP và viên đá ngôn ngữ 💎</span>
+      </span>
+      <span class="go">Vào ▶</span>
+    </button>
+    <h3 v-if="store.subject === 'english'" class="sub">⚡ Mini game luyện nhanh</h3>
+
     <div class="grid" :key="store.subject">
       <button
         v-for="(g, i) in games"
@@ -51,6 +61,25 @@ function play(id) {
 
 <style scoped>
 .menu { display: flex; flex-direction: column; gap: 22px; }
+.adventure {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, #58cc02, #1e90ff);
+  color: #fff;
+  text-align: left;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s;
+}
+.adventure:hover { transform: translateY(-4px); }
+.adventure .map { font-size: 4rem; animation: wiggle 2.5s infinite; }
+.adventure .txt { flex: 1; display: flex; flex-direction: column; }
+.adventure b { font-size: clamp(1.6rem, 5vw, 2.2rem); text-shadow: 0 3px 0 rgba(0, 0, 0, 0.15); }
+.adventure .txt span { font-weight: 700; font-size: 1.05rem; }
+.adventure .go { background: #fff; color: #1e90ff; font-weight: 800; font-size: 1.3rem; padding: 8px 20px; border-radius: 999px; }
+.sub { margin: 0; color: #fff; font-size: 1.4rem; text-shadow: 0 3px 0 rgba(0, 0, 0, 0.15); }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
 .game {
   position: relative;

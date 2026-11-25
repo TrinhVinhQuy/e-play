@@ -10,6 +10,10 @@ import BoardGame from './components/BoardGame.vue'
 import SpellGame from './components/SpellGame.vue'
 import ResultScreen from './components/ResultScreen.vue'
 import Leaderboard from './components/Leaderboard.vue'
+import AdventureHome from './english/AdventureHome.vue'
+import WorldScreen from './english/WorldScreen.vue'
+import LessonPlayer from './english/LessonPlayer.vue'
+import MyWords from './english/MyWords.vue'
 
 const current = computed(() => {
   if (store.screen === 'home') return HomeScreen
@@ -22,6 +26,10 @@ const current = computed(() => {
   }
   if (store.screen === 'result') return ResultScreen
   if (store.screen === 'leaderboard') return Leaderboard
+  if (store.screen === 'adventure') return AdventureHome
+  if (store.screen === 'world') return WorldScreen
+  if (store.screen === 'lesson') return LessonPlayer
+  if (store.screen === 'words') return MyWords
   return HomeScreen
 })
 

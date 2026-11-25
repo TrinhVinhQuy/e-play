@@ -18,6 +18,8 @@ export const store = reactive({
   screen: saved?.name ? 'menu' : 'home',
   player: saved || { name: '', avatar: '🐶', grade: 1, stars: 0 },
   gameId: null,
+  worldId: null, // English Adventure: thế giới đang xem
+  lessonId: null, // English Adventure: bài đang học
   result: null,
   sound: localStorage.getItem('toanvui.sound') !== 'off',
   subject: localStorage.getItem('toanvui.subject') || 'math'

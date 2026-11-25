@@ -18,6 +18,27 @@ Trang web học toán dạng trò chơi cho học sinh **lớp 1 đến lớp 5*
 
 Ở menu, bấm nút **🔤 Tiếng Anh** để chuyển môn.
 
+#### 🗺️ English Adventure (theo tài liệu thiết kế English Adventure Kids, bản MVP giao diện)
+
+Bé đi qua **12 thế giới** (Animal Forest, Fruit Kingdom, Color Garden, Number Island, Family House, Toy Town, Food Street, School Town, Clothes World, Weather Land, Daily Life City, Travel Adventure). Mỗi thế giới gồm các **Unit**, mỗi Unit gồm các **Lesson** (3 từ mỗi bài) và một bài **Ôn tập**. Cuối mỗi thế giới có **Boss Challenge**. Tổng cộng 92 bài.
+
+- **Một bài học:** Learn (thẻ từ có hình, nghĩa, phát âm) → Listening (nghe chọn hình) → Matching (ghép hình với từ) → Quiz (nhìn hình chọn từ) → Spelling (đánh vần) → Tổng kết.
+- **Điểm thưởng:** hoàn thành bài +10 XP, mỗi câu đúng +2 XP, hoàn thành thử thách (Ôn tập/Boss) +15 XP, hoàn thành Unit +30 XP, thắng Boss +100 XP, ôn lại bài cũ +5 XP.
+  - Có sổ ghi để không cộng trùng: chơi lại một bài chỉ được +5 XP, mỗi ngày một lần.
+  - Trả lời sai không bị trừ điểm.
+- **Mở khóa:** phải qua bài trước (đạt ít nhất 1 sao) mới mở bài sau. Thắng Boss thì mở thế giới tiếp theo. Cách mở khóa của từng thế giới cấu hình bằng trường `unlock` trong dữ liệu.
+- **Từ của tôi:** mỗi từ có trạng thái Đang học → Đã nhận biết → Thành thạo. Muốn thành thạo, bé phải trả lời đúng ở ít nhất 2 ngày khác nhau. Nút **Ôn tập** chọn ra những từ hay sai hoặc lâu chưa gặp.
+- **Nhiệm vụ hôm nay**, cấp độ (mỗi 100 XP lên một cấp), và bạn đồng hành Foxy 🦊.
+
+Chương trình học là **dữ liệu**, không viết cứng trong từng trang:
+- `src/english/curriculum.js` định nghĩa World, Unit, danh sách từ và các mẫu bài (Game Template).
+- `src/english/engine.js` đọc cấu hình đó và tạo ra các hoạt động trong bài.
+- Muốn thêm thế giới hoặc thêm bài, chỉ cần sửa file dữ liệu.
+
+Tiến độ hiện lưu trong trình duyệt (`localStorage`), riêng cho từng người chơi.
+
+#### Mini game luyện nhanh
+
 | Trò chơi | Nội dung |
 |---|---|
 | 🎧 **Nghe & Chọn** | Trình duyệt đọc to một từ tiếng Anh, bé chọn bức tranh đúng. Bấm 🔊 để nghe lại |
