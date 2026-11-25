@@ -1,0 +1,136 @@
+:root {
+  --sky1: #7ed6ff;
+  --sky2: #c9f0ff;
+  --grass: #7bd88f;
+  --grass-dark: #4cbb67;
+  --ink: #2f3542;
+  --white: #ffffff;
+  --yellow: #ffd93d;
+  --pink: #ff6b81;
+  --orange: #ffa502;
+  --green: #2ed573;
+  --blue: #1e90ff;
+  --purple: #a55eea;
+  --red: #ff4757;
+  --radius: 28px;
+  --shadow: 0 8px 0 rgba(0, 0, 0, 0.12);
+  font-family: 'Baloo 2', 'Comic Sans MS', system-ui, sans-serif;
+  color: var(--ink);
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; min-height: 100%; }
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--sky1) 0%, var(--sky2) 70%, var(--grass) 70%, var(--grass-dark) 100%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---------- Nút bấm kiểu kẹo ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 26px;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--white);
+  background: var(--orange);
+  border-radius: 999px;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.18);
+  transition: transform 0.1s, box-shadow 0.1s, filter 0.2s;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+}
+.btn:hover { filter: brightness(1.08); transform: translateY(-2px); }
+.btn:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0, 0, 0, 0.18); }
+.btn:disabled { filter: grayscale(0.7); opacity: 0.6; cursor: not-allowed; transform: none; }
+.btn.green { background: var(--green); }
+.btn.blue { background: var(--blue); }
+.btn.pink { background: var(--pink); }
+.btn.purple { background: var(--purple); }
+.btn.white { background: var(--white); color: var(--ink); text-shadow: none; }
+.btn.small { padding: 8px 18px; font-size: 1.05rem; }
+
+/* ---------- Thẻ ---------- */
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+.title {
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.1;
+  color: var(--white);
+  text-shadow: 0 4px 0 #ff9f43, 0 8px 0 rgba(0, 0, 0, 0.12);
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1b4f72;
+  margin: 6px 0 0;
+}
+
+/* ---------- Hiệu ứng ---------- */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-8deg); }
+  75% { transform: rotate(8deg); }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-10px); }
+  40%, 80% { transform: translateX(10px); }
+}
+@keyframes pop-in {
+  0% { transform: scale(0.3); opacity: 0; }
+  70% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); }
+}
+@keyframes drift {
+  from { transform: translateX(-30vw); }
+  to { transform: translateX(130vw); }
+}
+
+.bounce { animation: bounce 1.6s ease-in-out infinite; }
+.wiggle { animation: wiggle 0.6s ease-in-out; }
+.shake { animation: shake 0.45s ease-in-out; }
+.pop-in { animation: pop-in 0.45s ease-out both; }
+
+/* Mây trôi */
+.cloud {
+  position: fixed;
+  font-size: 80px;
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 0;
+  animation: drift linear infinite;
+  filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.05));
+}
+
+/* Chuyển màn hình */
+.screen-enter-active, .screen-leave-active { transition: opacity 0.25s, transform 0.25s; }
+.screen-enter-from { opacity: 0; transform: translateY(20px) scale(0.98); }
+.screen-leave-to { opacity: 0; transform: translateY(-20px) scale(0.98); }
