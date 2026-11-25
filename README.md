@@ -14,7 +14,27 @@ Trang web học toán dạng trò chơi cho học sinh **lớp 1 đến lớp 5*
 | 🎁 **Số Bí Ẩn** | Tìm số còn thiếu: `5 + ? = 12` |
 | 🏆 **Bảng Vàng** | Bảng xếp hạng theo từng trò chơi và từng lớp |
 
-Mức độ khó theo lớp:
+### Tiếng Anh
+
+Ở menu, bấm nút **🔤 Tiếng Anh** để chuyển môn.
+
+| Trò chơi | Nội dung |
+|---|---|
+| 🎧 **Nghe & Chọn** | Trình duyệt đọc to một từ tiếng Anh, bé chọn bức tranh đúng. Bấm 🔊 để nghe lại |
+| 🖼️ **Đoán Từ** | Nhìn hình và chọn từ tiếng Anh đúng |
+| 🔤 **Ghép Chữ** | Nghe và nhìn hình, rồi chạm các chữ cái theo đúng thứ tự. Sai 2 lần thì hiện gợi ý chữ tiếp theo |
+
+Từ vựng gồm khoảng 150 từ, chia theo 19 chủ đề và theo lớp, nằm trong file `src/data/vocab.js`. Mỗi lượt chơi lấy từ của lớp hiện tại và lớp liền trước. Mỗi từ có nghĩa tiếng Việt và một hình emoji. Muốn thêm từ, bạn chỉ cần thêm một dòng `['từ', 'nghĩa', 'emoji']` vào chủ đề phù hợp.
+
+- **Lớp 1:** con vật, hoa quả, màu sắc, số đếm
+- **Lớp 2:** cơ thể, gia đình, đồ chơi, đồ ăn
+- **Lớp 3:** đồ dùng học tập, quần áo, thời tiết
+- **Lớp 4:** nghề nghiệp, thể thao, thú hoang dã, địa điểm
+- **Lớp 5:** phương tiện, hoạt động, cảm xúc, thiên nhiên
+
+Giọng đọc dùng sẵn của trình duyệt (Web Speech API), không cần file âm thanh. Chrome và Edge có giọng tiếng Anh tốt nhất. Trên điện thoại, cần tắt chế độ im lặng thì mới nghe được.
+
+### Mức độ khó môn Toán theo lớp
 
 - **Lớp 1:** cộng, trừ trong phạm vi 10 và 20
 - **Lớp 2:** cộng, trừ trong phạm vi 100; bảng nhân và chia 2 đến 5

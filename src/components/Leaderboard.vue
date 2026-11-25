@@ -1,11 +1,19 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { store, go } from '../store'
-import { GAMES, GRADES } from '../games'
+import { gameById, gamesOf, GRADES } from '../games'
 import { getLeaderboard } from '../services/db'
 import { sfx } from '../utils/sound'
+import SubjectSwitch from './SubjectSwitch.vue'
 
-const game = ref(store.result?.gameId || 'balloon')
+const games = computed(() => gamesOf(store.subject))
+const last = gameById(store.result?.gameId)
+const game = ref(last?.subject === store.subject ? last.id : games.value[0].id)
+// Đổi môn thì chọn trò đầu tiên của môn đó
+watch(
+  () => store.subject,
+  () => (game.value = games.value[0].id)
+)
 const grade = ref(store.player.grade)
 const rows = ref([])
 const source = ref('local')
@@ -35,9 +43,11 @@ const isMe = (r) => r.name === store.player.name && r.avatar === store.player.av
       <span />
     </div>
 
+    <SubjectSwitch />
+
     <div class="tabs">
       <button
-        v-for="g in GAMES"
+        v-for="g in games"
         :key="g.id"
         class="tab"
         :class="{ active: g.id === game }"

@@ -19,8 +19,14 @@ export const store = reactive({
   player: saved || { name: '', avatar: '🐶', grade: 1, stars: 0 },
   gameId: null,
   result: null,
-  sound: localStorage.getItem('toanvui.sound') !== 'off'
+  sound: localStorage.getItem('toanvui.sound') !== 'off',
+  subject: localStorage.getItem('toanvui.subject') || 'math'
 })
+
+watch(
+  () => store.subject,
+  (s) => localStorage.setItem('toanvui.subject', s)
+)
 
 watch(
   () => store.player,

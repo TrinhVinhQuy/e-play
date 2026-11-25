@@ -8,7 +8,7 @@
 
 const SHEET_NAME = 'Scores'
 const HEADERS = ['time', 'name', 'avatar', 'grade', 'game', 'score', 'correct', 'total', 'stars']
-const GAMES = ['board', 'balloon', 'calc', 'compare', 'count', 'missing']
+const GAMES = ['listen', 'picture', 'spell', 'board', 'balloon', 'calc', 'compare', 'count', 'missing']
 
 function getSheet_() {
   const ss = SpreadsheetApp.getActiveSpreadsheet()

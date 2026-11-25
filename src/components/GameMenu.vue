@@ -1,8 +1,17 @@
 <script setup>
 import { store, go, startGame } from '../store'
-import { GAMES } from '../games'
+import { computed } from 'vue'
+import { gamesOf } from '../games'
 import { sfx } from '../utils/sound'
 import Mascot from './Mascot.vue'
+import SubjectSwitch from './SubjectSwitch.vue'
+
+const games = computed(() => gamesOf(store.subject))
+const greeting = computed(() =>
+  store.subject === 'english'
+    ? `Hello ${store.player.name}! Cùng học tiếng Anh nhé! ✨`
+    : `Chào ${store.player.name}! Hôm nay mình chơi trò gì nhỉ?`
+)
 
 function play(id) {
   sfx.click()
@@ -12,11 +21,13 @@ function play(id) {
 
 <template>
   <section class="menu">
-    <Mascot :text="`Chào ${store.player.name}! Hôm nay mình chơi trò gì nhỉ?`" mood="cheer" />
+    <Mascot :text="greeting" mood="cheer" />
 
-    <div class="grid">
+    <SubjectSwitch />
+
+    <div class="grid" :key="store.subject">
       <button
-        v-for="(g, i) in GAMES"
+        v-for="(g, i) in games"
         :key="g.id"
         class="game pop-in"
         :style="{ '--c': g.color, animationDelay: i * 0.07 + 's' }"
@@ -28,7 +39,7 @@ function play(id) {
         <span class="play">Chơi ▶</span>
       </button>
 
-      <button class="game pop-in rank" style="--c: #ffd93d; animation-delay: 0.35s" @click="sfx.click(); go('leaderboard')">
+      <button class="game pop-in rank" :style="{ '--c': '#ffd93d', animationDelay: games.length * 0.07 + 's' }" @click="sfx.click(); go('leaderboard')">
         <span class="icon">🏆</span>
         <span class="name">Bảng Vàng</span>
         <span class="desc">Xem ai là nhà vô địch toán học!</span>

@@ -7,6 +7,7 @@ import GameMenu from './components/GameMenu.vue'
 import QuizGame from './components/QuizGame.vue'
 import BalloonGame from './components/BalloonGame.vue'
 import BoardGame from './components/BoardGame.vue'
+import SpellGame from './components/SpellGame.vue'
 import ResultScreen from './components/ResultScreen.vue'
 import Leaderboard from './components/Leaderboard.vue'
 
@@ -16,6 +17,7 @@ const current = computed(() => {
   if (store.screen === 'play') {
     if (store.gameId === 'balloon') return BalloonGame
     if (store.gameId === 'board') return BoardGame
+    if (store.gameId === 'spell') return SpellGame
     return QuizGame
   }
   if (store.screen === 'result') return ResultScreen
