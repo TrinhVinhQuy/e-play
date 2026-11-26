@@ -20,13 +20,13 @@ Trang web học toán dạng trò chơi cho học sinh **lớp 1 đến lớp 5*
 
 #### 🗺️ English Adventure (theo tài liệu thiết kế English Adventure Kids, bản MVP giao diện)
 
-Bé đi qua **12 thế giới** (Animal Forest, Fruit Kingdom, Color Garden, Number Island, Family House, Toy Town, Food Street, School Town, Clothes World, Weather Land, Daily Life City, Travel Adventure). Mỗi thế giới gồm các **Unit**, mỗi Unit gồm các **Lesson** (3 từ mỗi bài) và một bài **Ôn tập**. Cuối mỗi thế giới có **Boss Challenge**. Tổng cộng 92 bài.
+Bé đi qua **15 thế giới** (Animal Forest, Ocean World, Fruit Kingdom, Color Garden, Number Island, Family House, Toy Town, Vehicle City, Food Street, School Town, Clothes World, Weather Land, Solar System, Daily Life City, Travel Adventure). Mỗi thế giới gồm các **Unit**, mỗi Unit gồm các **Lesson** (3 từ mỗi bài) và một bài **Ôn tập**. Cuối mỗi thế giới có **Boss Challenge**. Tổng cộng 112 bài.
 
 - **Một bài học:** Learn (thẻ từ có hình, nghĩa, phát âm) → Listening (nghe chọn hình) → Matching (ghép hình với từ) → Quiz (nhìn hình chọn từ) → Spelling (đánh vần) → Tổng kết.
 - **Điểm thưởng:** hoàn thành bài +10 XP, mỗi câu đúng +2 XP, hoàn thành thử thách (Ôn tập/Boss) +15 XP, hoàn thành Unit +30 XP, thắng Boss +100 XP, ôn lại bài cũ +5 XP.
   - Có sổ ghi để không cộng trùng: chơi lại một bài chỉ được +5 XP, mỗi ngày một lần.
   - Trả lời sai không bị trừ điểm.
-- **Mở khóa:** phải qua bài trước (đạt ít nhất 1 sao) mới mở bài sau. Thắng Boss thì mở thế giới tiếp theo. Cách mở khóa của từng thế giới cấu hình bằng trường `unlock` trong dữ liệu.
+- **Mở khóa:** phải qua bài trước (đạt ít nhất 1 sao) mới mở bài sau. Mỗi thế giới có trường `after` trong dữ liệu, cho biết phải thắng Boss của thế giới nào thì mới mở. Ví dụ thắng Boss Animal Forest sẽ mở cả Ocean World và Fruit Kingdom.
 - **Từ của tôi:** mỗi từ có trạng thái Đang học → Đã nhận biết → Thành thạo. Muốn thành thạo, bé phải trả lời đúng ở ít nhất 2 ngày khác nhau. Nút **Ôn tập** chọn ra những từ hay sai hoặc lâu chưa gặp.
 - **Nhiệm vụ hôm nay**, cấp độ (mỗi 100 XP lên một cấp), và bạn đồng hành Foxy 🦊.
 
@@ -45,12 +45,12 @@ Tiến độ hiện lưu trong trình duyệt (`localStorage`), riêng cho từn
 | 🖼️ **Đoán Từ** | Nhìn hình và chọn từ tiếng Anh đúng |
 | 🔤 **Ghép Chữ** | Nghe và nhìn hình, rồi chạm các chữ cái theo đúng thứ tự. Sai 2 lần thì hiện gợi ý chữ tiếp theo |
 
-Từ vựng gồm khoảng 150 từ, chia theo 19 chủ đề và theo lớp, nằm trong file `src/data/vocab.js`. Mỗi lượt chơi lấy từ của lớp hiện tại và lớp liền trước. Mỗi từ có nghĩa tiếng Việt và một hình emoji. Muốn thêm từ, bạn chỉ cần thêm một dòng `['từ', 'nghĩa', 'emoji']` vào chủ đề phù hợp.
+Từ vựng gồm 184 từ, chia theo 22 chủ đề và theo lớp, nằm trong file `src/data/vocab.js`. Mỗi lượt chơi lấy từ của lớp hiện tại và lớp liền trước. Mỗi từ có nghĩa tiếng Việt và một hình emoji. Muốn thêm từ, bạn chỉ cần thêm một dòng `['từ', 'nghĩa', 'emoji']` vào chủ đề phù hợp.
 
 - **Lớp 1:** con vật, hoa quả, màu sắc, số đếm
-- **Lớp 2:** cơ thể, gia đình, đồ chơi, đồ ăn
-- **Lớp 3:** đồ dùng học tập, quần áo, thời tiết
-- **Lớp 4:** nghề nghiệp, thể thao, thú hoang dã, địa điểm
+- **Lớp 2:** cơ thể, gia đình, đồ chơi, đồ ăn, sinh vật biển
+- **Lớp 3:** đồ dùng học tập, quần áo, thời tiết, xe cộ
+- **Lớp 4:** nghề nghiệp, thể thao, thú hoang dã, địa điểm, hệ Mặt Trời
 - **Lớp 5:** phương tiện, hoạt động, cảm xúc, thiên nhiên
 
 Giọng đọc dùng sẵn của trình duyệt (Web Speech API), không cần file âm thanh. Chrome và Edge có giọng tiếng Anh tốt nhất. Trên điện thoại, cần tắt chế độ im lặng thì mới nghe được.

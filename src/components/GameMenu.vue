@@ -5,6 +5,7 @@ import { gamesOf } from '../games'
 import { sfx } from '../utils/sound'
 import Mascot from './Mascot.vue'
 import SubjectSwitch from './SubjectSwitch.vue'
+import { WORLDS } from '../english/curriculum'
 
 const games = computed(() => gamesOf(store.subject))
 const greeting = computed(() =>
@@ -29,7 +30,7 @@ function play(id) {
       <span class="map">🗺️</span>
       <span class="txt">
         <b>English Adventure</b>
-        <span>Phiêu lưu qua 12 thế giới · học từ mới · nhận XP và viên đá ngôn ngữ 💎</span>
+        <span>Phiêu lưu qua {{ WORLDS.length }} thế giới · học từ mới · nhận XP và viên đá ngôn ngữ 💎</span>
       </span>
       <span class="go">Vào ▶</span>
     </button>

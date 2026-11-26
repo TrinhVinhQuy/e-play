@@ -98,7 +98,31 @@ export const TOPICS = [
     ['cookie', 'bánh quy', '🍪']
   ]),
 
+  T(2, 'Sinh vật biển', '🌊', [
+    ['whale', 'cá voi', '🐳'],
+    ['dolphin', 'cá heo', '🐬'],
+    ['shark', 'cá mập', '🦈'],
+    ['octopus', 'bạch tuộc', '🐙'],
+    ['crab', 'con cua', '🦀'],
+    ['turtle', 'con rùa', '🐢'],
+    ['seal', 'hải cẩu', '🦭'],
+    ['shrimp', 'con tôm', '🦐'],
+    ['squid', 'con mực', '🦑'],
+    ['lobster', 'tôm hùm', '🦞']
+  ]),
+
   // ---------- Lớp 3 ----------
+  T(3, 'Xe cộ', '🚦', [
+    ['truck', 'xe tải', '🚚'],
+    ['van', 'xe van', '🚐'],
+    ['ambulance', 'xe cứu thương', '🚑'],
+    ['tractor', 'máy cày', '🚜'],
+    ['subway', 'tàu điện ngầm', '🚇'],
+    ['scooter', 'xe trượt scooter', '🛴'],
+    ['skateboard', 'ván trượt', '🛹'],
+    ['boat', 'con thuyền', '⛵'],
+    ['canoe', 'xuồng', '🛶']
+  ]),
   T(3, 'Đồ dùng học tập', '🎒', [
     ['book', 'quyển sách', '📕'],
     ['pen', 'bút mực', '🖊️'],
@@ -171,6 +195,17 @@ export const TOPICS = [
     ['park', 'công viên', '🏞️'],
     ['mountain', 'ngọn núi', '⛰️'],
     ['shop', 'cửa hàng', '🏪']
+  ]),
+
+  T(4, 'Hệ Mặt Trời', '🪐', [
+    ['earth', 'Trái Đất', '🌍'],
+    ['planet', 'hành tinh', '🪐'],
+    ['comet', 'sao chổi', '☄️'],
+    ['galaxy', 'thiên hà', '🌌'],
+    ['astronaut', 'phi hành gia', '🧑‍🚀'],
+    ['telescope', 'kính thiên văn', '🔭'],
+    ['satellite', 'vệ tinh', '🛰️'],
+    ['alien', 'người ngoài hành tinh', '👽']
   ]),
 
   // ---------- Lớp 5 ----------

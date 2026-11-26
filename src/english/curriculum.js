@@ -34,7 +34,8 @@ export const LESSON_TEMPLATES = {
   ]
 }
 
-// unlock: 'open' = mở sẵn, 'previous' = mở khi qua Boss của thế giới trước
+// after: id thế giới phải thắng Boss trước thì mới mở (null = mở sẵn).
+// Nhờ vậy có thể chèn thế giới mới vào bản đồ mà không làm khóa lại tiến độ cũ.
 export const WORLDS = [
   {
     id: 'animal',
@@ -42,7 +43,7 @@ export const WORLDS = [
     vi: 'Khu rừng động vật',
     icon: '🌳',
     color: '#2ed573',
-    unlock: 'open',
+    after: null,
     boss: '🦍',
     units: [
       { name: 'Pets', vi: 'Thú cưng', words: ['cat', 'dog', 'bird', 'fish', 'rabbit', 'frog'] },
@@ -51,12 +52,25 @@ export const WORLDS = [
     ]
   },
   {
+    id: 'ocean',
+    name: 'Ocean World',
+    vi: 'Thế giới đại dương',
+    icon: '🌊',
+    color: '#0abde3',
+    after: 'animal',
+    boss: '🔱',
+    units: [
+      { name: 'Sea Friends', vi: 'Bạn bè dưới biển', words: ['fish', 'whale', 'dolphin', 'turtle', 'seal'] },
+      { name: 'Ocean Creatures', vi: 'Sinh vật đại dương', words: ['shark', 'octopus', 'squid', 'crab', 'shrimp', 'lobster'] }
+    ]
+  },
+  {
     id: 'fruit',
     name: 'Fruit Kingdom',
     vi: 'Vương quốc trái cây',
     icon: '🍓',
     color: '#ff6b81',
-    unlock: 'previous',
+    after: 'animal',
     boss: '🍍',
     units: [
       { name: 'Common Fruits', vi: 'Trái cây quen thuộc', words: ['apple', 'banana', 'orange', 'grapes', 'mango'] },
@@ -69,7 +83,7 @@ export const WORLDS = [
     vi: 'Khu vườn sắc màu',
     icon: '🎨',
     color: '#a55eea',
-    unlock: 'previous',
+    after: 'fruit',
     boss: '🦚',
     units: [
       { name: 'Bright Colors', vi: 'Màu tươi sáng', words: ['red', 'blue', 'green', 'yellow'] },
@@ -82,8 +96,8 @@ export const WORLDS = [
     vi: 'Hòn đảo số đếm',
     icon: '🏝️',
     color: '#ffa502',
-    unlock: 'previous',
-    boss: '🐙',
+    after: 'color',
+    boss: '🦜',
     units: [
       { name: 'One to Five', vi: 'Số 1 đến 5', words: ['one', 'two', 'three', 'four', 'five'] },
       { name: 'Six to Ten', vi: 'Số 6 đến 10', words: ['six', 'seven', 'eight', 'nine', 'ten'] }
@@ -95,7 +109,7 @@ export const WORLDS = [
     vi: 'Ngôi nhà gia đình',
     icon: '🏠',
     color: '#ff7f50',
-    unlock: 'previous',
+    after: 'number',
     boss: '🐲',
     units: [
       { name: 'My Family', vi: 'Gia đình em', words: ['mother', 'father', 'baby', 'grandma', 'grandpa', 'boy', 'girl'] },
@@ -108,11 +122,25 @@ export const WORLDS = [
     vi: 'Thị trấn đồ chơi',
     icon: '🧸',
     color: '#1e90ff',
-    unlock: 'previous',
+    after: 'family',
     boss: '🤖',
     units: [
       { name: 'My Toys', vi: 'Đồ chơi của em', words: ['ball', 'kite', 'robot', 'teddy'] },
       { name: 'Toy Shop', vi: 'Cửa hàng đồ chơi', words: ['car', 'train', 'balloon', 'drum'] }
+    ]
+  },
+  {
+    id: 'vehicles',
+    name: 'Vehicle City',
+    vi: 'Thành phố xe cộ',
+    icon: '🚦',
+    color: '#ff9f43',
+    after: 'toy',
+    boss: '🏁',
+    units: [
+      { name: 'On the Road', vi: 'Trên đường phố', words: ['car', 'bus', 'taxi', 'truck', 'van', 'ambulance', 'tractor'] },
+      { name: 'Wheels', vi: 'Xe có bánh', words: ['bike', 'motorbike', 'scooter', 'skateboard', 'subway'] },
+      { name: 'Water and Sky', vi: 'Trên nước và trên trời', words: ['boat', 'canoe', 'ship', 'plane', 'helicopter'] }
     ]
   },
   {
@@ -121,8 +149,8 @@ export const WORLDS = [
     vi: 'Phố ẩm thực',
     icon: '🍔',
     color: '#eccc68',
-    unlock: 'previous',
-    boss: '🦀',
+    after: 'toy',
+    boss: '🍩',
     units: [
       { name: 'Breakfast', vi: 'Bữa sáng', words: ['bread', 'egg', 'milk', 'rice'] },
       { name: 'Snacks', vi: 'Đồ ăn vặt', words: ['cake', 'candy', 'pizza', 'cookie'] }
@@ -134,7 +162,7 @@ export const WORLDS = [
     vi: 'Thị trấn trường học',
     icon: '🏫',
     color: '#3742fa',
-    unlock: 'previous',
+    after: 'food',
     boss: '🦉',
     units: [
       { name: 'In My Bag', vi: 'Trong cặp sách', words: ['book', 'pen', 'pencil', 'ruler'] },
@@ -147,7 +175,7 @@ export const WORLDS = [
     vi: 'Thế giới quần áo',
     icon: '👕',
     color: '#ff4757',
-    unlock: 'previous',
+    after: 'school',
     boss: '🦩',
     units: [
       { name: 'Clothes', vi: 'Quần áo', words: ['hat', 'shirt', 'dress', 'coat'] },
@@ -160,11 +188,25 @@ export const WORLDS = [
     vi: 'Xứ sở thời tiết',
     icon: '🌦️',
     color: '#70a1ff',
-    unlock: 'previous',
+    after: 'clothes',
     boss: '⛈️',
     units: [
-      { name: 'The Sky', vi: 'Bầu trời', words: ['sun', 'cloud', 'star', 'moon'] },
-      { name: 'Weather', vi: 'Thời tiết', words: ['rain', 'snow', 'rainbow', 'wind'] }
+      { name: 'Sunny Days', vi: 'Ngày nắng', words: ['sun', 'cloud', 'wind'] },
+      { name: 'Rainy Days', vi: 'Ngày mưa', words: ['rain', 'snow', 'rainbow'] }
+    ]
+  },
+  {
+    id: 'space',
+    name: 'Solar System',
+    vi: 'Hệ Mặt Trời',
+    icon: '🪐',
+    color: '#5f27cd',
+    after: 'weather',
+    boss: '🌠',
+    units: [
+      { name: 'Our Sky', vi: 'Bầu trời của chúng ta', words: ['sun', 'moon', 'star', 'earth'] },
+      { name: 'Deep Space', vi: 'Vũ trụ xa xôi', words: ['planet', 'comet', 'galaxy', 'alien'] },
+      { name: 'Space Explorer', vi: 'Nhà thám hiểm vũ trụ', words: ['rocket', 'astronaut', 'telescope', 'satellite'] }
     ]
   },
   {
@@ -173,7 +215,7 @@ export const WORLDS = [
     vi: 'Thành phố sinh hoạt',
     icon: '🏙️',
     color: '#20bf6b',
-    unlock: 'previous',
+    after: 'weather',
     boss: '🦸',
     units: [
       { name: 'Actions', vi: 'Hoạt động', words: ['sing', 'dance', 'sleep', 'eat', 'paint', 'write', 'read', 'cry'] },
@@ -187,10 +229,9 @@ export const WORLDS = [
     vi: 'Chuyến du lịch',
     icon: '✈️',
     color: '#0abde3',
-    unlock: 'previous',
+    after: 'daily',
     boss: '🐉',
     units: [
-      { name: 'Transport', vi: 'Phương tiện', words: ['bus', 'bike', 'plane', 'ship', 'taxi', 'motorbike', 'helicopter', 'rocket'] },
       { name: 'Places', vi: 'Địa điểm', words: ['house', 'hospital', 'bank', 'castle', 'beach', 'park', 'mountain', 'shop'] },
       { name: 'Nature', vi: 'Thiên nhiên', words: ['tree', 'flower', 'sea', 'leaf', 'volcano', 'desert', 'island', 'forest'] },
       { name: 'Sports', vi: 'Thể thao', words: ['swimming', 'running', 'tennis', 'badminton', 'basketball', 'cycling', 'chess', 'skating'] }

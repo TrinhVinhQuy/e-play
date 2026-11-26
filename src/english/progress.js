@@ -104,9 +104,7 @@ export function weakWords(limit = 8) {
 export const isDone = (id) => (progress.lessons[id]?.stars || 0) >= 1
 
 export function isWorldUnlocked(world) {
-  if (world.unlock === 'open') return true
-  const i = WORLDS.indexOf(world)
-  return i <= 0 || isDone(`${WORLDS[i - 1].id}.boss`)
+  return !world.after || isDone(`${world.after}.boss`)
 }
 
 export function isLessonUnlocked(lesson) {

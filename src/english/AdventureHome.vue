@@ -89,7 +89,8 @@ function continueLearning() {
         <span class="prog">
           <i :style="{ width: worldProgress(w).pct + '%' }" />
         </span>
-        <small>{{ worldProgress(w).done }}/{{ worldProgress(w).total }} bài<template v-if="worldProgress(w).pct === 100"> · 💎</template></small>
+        <small v-if="isWorldUnlocked(w)">{{ worldProgress(w).done }}/{{ worldProgress(w).total }} bài<template v-if="worldProgress(w).pct === 100"> · 💎</template></small>
+        <small v-else>Thắng Boss {{ worldById(w.after).name }} để mở</small>
       </button>
     </div>
   </section>
