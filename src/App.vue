@@ -10,6 +10,7 @@ import BoardGame from './components/BoardGame.vue'
 import SpellGame from './components/SpellGame.vue'
 import ResultScreen from './components/ResultScreen.vue'
 import Leaderboard from './components/Leaderboard.vue'
+import Fireworks from './components/Fireworks.vue'
 import AdventureHome from './english/AdventureHome.vue'
 import WorldScreen from './english/WorldScreen.vue'
 import LessonPlayer from './english/LessonPlayer.vue'
@@ -68,6 +69,7 @@ function toggleSound() {
   </main>
 
   <div class="sun">🌞</div>
+  <Fireworks />
 </template>
 
 <style scoped>

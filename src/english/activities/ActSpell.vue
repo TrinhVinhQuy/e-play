@@ -5,7 +5,7 @@ import { WORD } from '../curriculum'
 import { shuffle, pick } from '../../utils/questions'
 import { speak, stopSpeaking } from '../../utils/speech'
 import { sfx } from '../../utils/sound'
-import { PRAISE } from '../../utils/finish'
+import { cheer, encourage } from '../../utils/cheer'
 import FeedbackBar from './FeedbackBar.vue'
 
 const props = defineProps({ step: Object })
@@ -19,12 +19,15 @@ const filled = ref([])
 const tiles = ref([])
 const mistakes = ref(0)
 const solved = ref(false)
-const w = computed(() => WORD[props.step.words[i.value]])
+const phrase = ref('')
+const retryMsg = ref('')
+const w =computed(() => WORD[props.step.words[i.value]])
 
 function setup() {
   filled.value = []
   mistakes.value = 0
   solved.value = false
+  retryMsg.value = ''
   const letters = w.value.en.split('')
   for (let k = 0; k < (props.step.extra || 0); k++) letters.push(pick(ABC.filter((c) => !w.value.en.includes(c))))
   tiles.value = shuffle(letters).map((ch, k) => ({ id: i.value + '-' + k, ch, used: false, wrong: false, color: COLORS[k % COLORS.length] }))
@@ -39,14 +42,14 @@ function tap(t) {
     sfx.pop()
     if (filled.value.length === w.value.en.length) {
       solved.value = true
-      sfx.correct()
-      speak(w.value.en)
+      phrase.value = cheer(w.value.en)
       emit('answer', { en: w.value.en, ok: mistakes.value <= 1 })
     }
   } else {
     t.wrong = true
     mistakes.value++
     sfx.wrong()
+    retryMsg.value = encourage()
     setTimeout(() => (t.wrong = false), 450)
   }
 }
@@ -84,6 +87,8 @@ onBeforeUnmount(stopSpeaking)
       </span>
     </div>
 
+    <p v-if="retryMsg && !solved" :key="'r' + mistakes" class="retry pop-in">💪 {{ retryMsg }}</p>
+
     <div class="tiles">
       <button
         v-for="t in tiles"
@@ -100,8 +105,8 @@ onBeforeUnmount(stopSpeaking)
 
     <FeedbackBar
       v-if="solved"
-      :ok="mistakes <= 1"
-      :title="mistakes <= 1 ? pick(PRAISE) : 'Hoàn thành! Lần sau cố lên nhé 💪'"
+      ok
+      :title="`${phrase} 🎉`"
       :text="`${w.emoji} ${w.en} – ${w.vi}`"
       @next="next"
     />
@@ -131,6 +136,7 @@ onBeforeUnmount(stopSpeaking)
 .slot.next { border-color: var(--purple); animation: bounce 1.2s infinite; }
 .slot.hint { color: #c8d6e5; }
 .slot.filled { background: #fff; border: 4px solid var(--purple); animation: pop-in 0.3s; }
+.retry { margin: 0; background: #fff4e5; color: #b35c00; border: 3px solid #ffa502; border-radius: 999px; padding: 6px 20px; font-size: 1.2rem; font-weight: 800; }
 .tiles { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 620px; }
 .tile {
   width: clamp(54px, 12vw, 74px);

@@ -6,7 +6,8 @@ import { pick } from '../utils/questions'
 import { makeEnglishQuiz } from '../utils/english'
 import { speak, stopSpeaking } from '../utils/speech'
 import { sfx } from '../utils/sound'
-import { finishGame, PRAISE } from '../utils/finish'
+import { finishGame } from '../utils/finish'
+import { cheer, encourage } from '../utils/cheer'
 import Mascot from './Mascot.vue'
 
 const TOTAL = 10
@@ -59,7 +60,7 @@ function tap(t) {
     mistakes.value++
     sfx.wrong()
     mood.value = 'sad'
-    say.value = pick(HINTS)
+    say.value = `💪 ${encourage()} ${pick(HINTS)}`
     // Sai 2 lần thì hiện chữ cái tiếp theo làm gợi ý
     if (mistakes.value >= 2) showHint.value = true
     setTimeout(() => (t.wrong = false), 450)
@@ -68,13 +69,11 @@ function tap(t) {
 
 function win() {
   solved.value = true
-  sfx.correct()
-  setTimeout(() => speak(q.value.word), 300)
   if (mistakes.value <= 1) correct.value++
   score.value += Math.max(3, 10 - mistakes.value * 2)
   mood.value = 'cheer'
-  say.value = `${pick(PRAISE)} ${q.value.explain}`
-  nextTimer = setTimeout(next, 2200)
+  say.value = `${cheer(q.value.word)} 🎉 ${q.value.explain}`
+  nextTimer = setTimeout(next, 2600)
 }
 
 function next() {

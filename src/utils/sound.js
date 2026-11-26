@@ -47,5 +47,57 @@ export const sfx = {
   win: () =>
     play(() => {
       ;[523, 659, 784, 1047, 784, 1047].forEach((f, i) => tone(f, i * 0.12, 0.2, 'triangle'))
+    }),
+  // Tiếng vỗ tay: nhiều tiếng "bốp" ngắn từ nhiễu trắng, dày rồi thưa dần
+  applause: (seconds = 1.6) => play(() => applause(seconds)),
+  // Tiếng pháo hoa nổ "bụp"
+  boom: () =>
+    play(() => {
+      const c = ac()
+      const t = c.currentTime
+      const src = c.createBufferSource()
+      src.buffer = noiseBuffer(c)
+      const f = c.createBiquadFilter()
+      f.type = 'lowpass'
+      f.frequency.setValueAtTime(1800, t)
+      f.frequency.exponentialRampToValueAtTime(200, t + 0.4)
+      const g = c.createGain()
+      g.gain.setValueAtTime(0.25, t)
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45)
+      src.connect(f).connect(g).connect(c.destination)
+      src.start(t)
+      src.stop(t + 0.5)
     })
+}
+
+let noise = null
+function noiseBuffer(c) {
+  if (noise) return noise
+  noise = c.createBuffer(1, c.sampleRate * 1, c.sampleRate)
+  const d = noise.getChannelData(0)
+  for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1
+  return noise
+}
+
+function applause(seconds) {
+  const c = ac()
+  const t0 = c.currentTime
+  const claps = Math.round(seconds * 22)
+  for (let i = 0; i < claps; i++) {
+    const p = i / claps
+    const t = t0 + p * seconds + Math.random() * 0.05
+    const vol = 0.22 * (1 - p * 0.75) * (0.6 + Math.random() * 0.4)
+    const src = c.createBufferSource()
+    src.buffer = noiseBuffer(c)
+    const f = c.createBiquadFilter()
+    f.type = 'bandpass'
+    f.frequency.value = 900 + Math.random() * 1400
+    f.Q.value = 1.2
+    const g = c.createGain()
+    g.gain.setValueAtTime(0.0001, t)
+    g.gain.exponentialRampToValueAtTime(vol, t + 0.004)
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.07)
+    src.connect(f).connect(g).connect(c.destination)
+    src.start(t, Math.random() * 0.8, 0.09)
+  }
 }

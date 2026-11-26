@@ -5,6 +5,7 @@ import { WORD } from '../curriculum'
 import { shuffle } from '../../utils/questions'
 import { speak, stopSpeaking } from '../../utils/speech'
 import { sfx } from '../../utils/sound'
+import { cheer, encourage } from '../../utils/cheer'
 import FeedbackBar from './FeedbackBar.vue'
 
 const props = defineProps({ step: Object })
@@ -17,6 +18,8 @@ const mistakes = reactive({})
 const sel = ref(null) // { side: 'pic'|'word', en }
 const shake = ref(null)
 const finished = ref(false)
+const phrase = ref('')
+const retryMsg = ref('')
 
 function tap(side, en) {
   if (matched.has(en) || finished.value) return
@@ -31,14 +34,20 @@ function tap(side, en) {
   sel.value = null
   if (a === en) {
     matched.add(en)
-    sfx.correct()
-    speak(en)
+    retryMsg.value = ''
     emit('answer', { en, ok: !mistakes[en] })
-    if (matched.size === props.step.words.length) finished.value = true
+    if (matched.size === props.step.words.length) {
+      finished.value = true
+      phrase.value = cheer(en, { bursts: 3 })
+    } else {
+      sfx.correct()
+      speak(en)
+    }
   } else {
     const picEn = side === 'pic' ? en : a
     mistakes[picEn] = (mistakes[picEn] || 0) + 1
     sfx.wrong()
+    retryMsg.value = encourage()
     shake.value = [a, en]
     setTimeout(() => (shake.value = null), 450)
   }
@@ -77,12 +86,15 @@ onBeforeUnmount(stopSpeaking)
       </div>
     </div>
 
-    <FeedbackBar v-if="finished" ok title="Ghép đúng hết rồi! 🎉" text="Bạn giỏi quá!" @next="emit('done')" />
+    <p v-if="retryMsg && !finished" class="retry pop-in">💪 {{ retryMsg }}</p>
+
+    <FeedbackBar v-if="finished" ok :title="`${phrase} 🎉`" text="Ghép đúng hết rồi!" @next="emit('done')" />
   </div>
 </template>
 
 <style scoped>
-.match { padding-bottom: 90px; display: flex; justify-content: center; }
+.match { padding-bottom: 90px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.retry { margin: 0; order: -1; background: #fff4e5; color: #b35c00; border: 3px solid #ffa502; border-radius: 999px; padding: 6px 20px; font-size: 1.2rem; font-weight: 800; }
 .cols { width: 100%; max-width: 560px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .col { display: flex; flex-direction: column; gap: 12px; }
 .item {

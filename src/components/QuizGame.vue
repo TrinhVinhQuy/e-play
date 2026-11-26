@@ -7,6 +7,7 @@ import { isEnglishGame, makeEnglishQuiz } from '../utils/english'
 import { speak, canSpeak, stopSpeaking } from '../utils/speech'
 import { sfx } from '../utils/sound'
 import { finishGame, PRAISE, ENCOURAGE } from '../utils/finish'
+import { cheer, encourage } from '../utils/cheer'
 import Mascot from './Mascot.vue'
 
 const TOTAL = 10
@@ -26,6 +27,7 @@ const timeLeft = ref(TIME)
 const say = ref(game.desc)
 const mood = ref('happy')
 const floating = ref(null)
+const tried = ref([]) // tiếng Anh: đáp án đã chọn sai (được thử lại 1 lần)
 
 const q = computed(() => questions[idx.value])
 const timePct = computed(() => (timeLeft.value / TIME) * 100)
@@ -46,20 +48,38 @@ function startTimer() {
 }
 
 function choose(c) {
-  if (status.value) return
+  if (status.value || tried.value.includes(c)) return
+  const ok = c === q.value.answer
+
+  // Tiếng Anh: sai lần đầu thì động viên và cho chọn lại
+  if (english && !ok && c !== null && tried.value.length === 0) {
+    tried.value.push(c)
+    sfx.wrong()
+    say.value = '💪 ' + encourage({ force: true })
+    mood.value = 'sad'
+    if (q.value.kind === 'listen') speak(q.value.word, { queue: true })
+    return
+  }
+
   clearInterval(timer)
   picked.value = c
-  const ok = c === q.value.answer
   status.value = ok ? 'right' : 'wrong'
   if (ok) {
-    correct.value++
-    streak.value++
-    const gain = 10 + Math.ceil((timeLeft.value / TIME) * 5) + Math.min(streak.value - 1, 5) * 2
+    const retried = tried.value.length > 0
+    if (retried) streak.value = 0
+    else {
+      correct.value++
+      streak.value++
+    }
+    const gain = retried ? 5 : 10 + Math.ceil((timeLeft.value / TIME) * 5) + Math.min(streak.value - 1, 5) * 2
     score.value += gain
     floating.value = '+' + gain
-    sfx.correct()
-    if (english) setTimeout(() => speak(q.value.word), 350)
-    say.value = streak.value >= 3 ? `${streak.value} câu liên tiếp! 🔥` : pick(PRAISE)
+    if (english) {
+      say.value = cheer(q.value.word) + ' 🎉'
+    } else {
+      sfx.correct()
+      say.value = streak.value >= 3 ? `${streak.value} câu liên tiếp! 🔥` : pick(PRAISE)
+    }
     mood.value = 'cheer'
   } else {
     streak.value = 0
@@ -69,7 +89,8 @@ function choose(c) {
     if (english) setTimeout(() => speak(q.value.word), 500)
     mood.value = 'sad'
   }
-  nextTimer = setTimeout(next, ok ? 1200 : 2400)
+  // Tiếng Anh chờ lâu hơn để bé nghe hết lời khen
+  nextTimer = setTimeout(next, ok ? (english ? 2000 : 1200) : 2400)
 }
 
 function next() {
@@ -81,6 +102,7 @@ function next() {
   idx.value++
   picked.value = null
   status.value = null
+  tried.value = []
   mood.value = 'happy'
   say.value = q.value.prompt
   startTimer()
@@ -102,6 +124,7 @@ function quit() {
 }
 
 function choiceClass(c) {
+  if (tried.value.includes(c) && !status.value) return 'is-wrong'
   if (!status.value) return ''
   if (c === q.value.answer) return 'is-answer'
   if (c === picked.value) return 'is-wrong'
@@ -194,7 +217,7 @@ onBeforeUnmount(() => {
         class="choice pop-in"
         :class="choiceClass(c)"
         :style="{ '--bg': CHOICE_COLORS[ci % 4], animationDelay: ci * 0.06 + 's' }"
-        :disabled="!!status"
+        :disabled="!!status || tried.includes(c)"
         @click="choose(c)"
       >
         <span class="val">{{ typeof c === 'number' ? formatNum(c) : c }}</span>
